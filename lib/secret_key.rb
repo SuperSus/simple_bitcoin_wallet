@@ -10,8 +10,7 @@ class SecretKey
     def create
       return if exists?
 
-      key = Bitcoin::Key.generate
-      File.write(FILE_PATH, key.to_base58)
+      Bitcoin::Key.generate.tap { |key | File.write(FILE_PATH, key.to_base58) }
     end
 
     def instance
@@ -19,7 +18,6 @@ class SecretKey
         return extract_from_file if exists?
 
         create
-        extract_from_file
       end
     end
 
